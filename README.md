@@ -1,0 +1,2 @@
+# Ombyte
+Ombyte discord bot.

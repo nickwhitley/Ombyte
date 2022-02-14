@@ -24,7 +24,7 @@ namespace Ombyte
                 .AddSingleton(_commands)
                 .BuildServiceProvider();
 
-            string token = "<our token>";
+            string token = "<bot token>";
 
             _client.Log += _client_Log;
 

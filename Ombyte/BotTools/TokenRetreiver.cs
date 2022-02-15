@@ -23,7 +23,7 @@ namespace Ombyte.BotTools
 
         public string GetToken()
         {
-            return "OTQxMDA5OTEzMzAyMzc2NDY4.YgPtxg.J0kcm_62tH0ed8ZpIvAuaWExb1M";
+            return "<bot token>";
         }
         
             

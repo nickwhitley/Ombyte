@@ -5,25 +5,44 @@ using System.Text;
 using System.Threading.Tasks;
 using Azure.Identity;
 using Azure.Security.KeyVault.Secrets;
+using Azure.Security.KeyVault;
+using Microsoft.Azure.Services.AppAuthentication;
+using Microsoft.Azure.KeyVault;
 
 namespace Ombyte.BotTools
 {
     internal class TokenRetreiver
     {
 
-        SecretClient _secretClient;
-
         public TokenRetreiver()
         {
-            ///TODO store these values in a configuration file (appsettings.json).
-            _secretClient = new SecretClient(
-                new Uri("https://ombytekeyvault.vault.azure.net/"),
-                new DefaultAzureCredential());
+
+        }
+
+        public static async Task<string> GetSecret(string secretName, string keyVaultName)
+        {
+            try
+            {
+                return (await GetClient())
+            }
+        }
+
+        public static async Task<string> GetAccessTokenAsync()
+        {
+            AzureServiceTokenProvider azureServiceTokenProvider = new AzureServiceTokenProvider();
+            return await azureServiceTokenProvider.GetAccessTokenAsync("https://vault.azure.net");
+        }
+
+        private static KeyVaultClient GetClient()
+        {
+            AzureServiceTokenProvider azureServiceTokenProvider = new AzureServiceTokenProvider();
+            KeyVaultClient keyVaultClient = new KeyVaultClient(new KeyVaultClient.AuthenticationCallback(azureServiceTokenProvider.KeyVaultTokenCallback));
+            return keyVaultClient;
         }
 
         public string GetToken()
         {
-            return "OTQxMDA5OTEzMzAyMzc2NDY4.YgPtxg.J0kcm_62tH0ed8ZpIvAuaWExb1M";
+            return "<bot token>";
         }
         
             

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Azure.Identity;
 using Azure.Security.KeyVault.Secrets;
 
-namespace Ombyte.Bot
+namespace Ombyte.BotTools
 {
     internal class TokenRetreiver
     {
@@ -19,6 +19,11 @@ namespace Ombyte.Bot
             _secretClient = new SecretClient(
                 new Uri("https://ombytekeyvault.vault.azure.net/"),
                 new DefaultAzureCredential());
+        }
+
+        public string GetToken()
+        {
+            return "OTQxMDA5OTEzMzAyMzc2NDY4.YgPtxg.J0kcm_62tH0ed8ZpIvAuaWExb1M";
         }
         
             

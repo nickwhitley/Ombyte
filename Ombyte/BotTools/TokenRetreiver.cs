@@ -52,8 +52,6 @@ namespace Ombyte.BotTools
             var secretName = "BotToken";
             var keyVaultName = "OmbyteKeyVault";
 
-            Console.WriteLine("secret: OTQxMDA5OTEzMzAyMzc2NDY4.YgPtxg.VAKpFvkqIiEsG5-B0XV20K_g1NY");
-            Console.WriteLine($"Token from vault: { GetSecret(secretName, keyVaultName).GetAwaiter().GetResult()}");
             return GetSecret(secretName, keyVaultName).GetAwaiter().GetResult();
         }
         

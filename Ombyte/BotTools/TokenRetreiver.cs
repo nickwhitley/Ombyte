@@ -14,35 +14,47 @@ namespace Ombyte.BotTools
     internal class TokenRetreiver
     {
 
+        AzureServiceTokenProvider azureServiceTokenProvider = new AzureServiceTokenProvider();
+
+
         public TokenRetreiver()
         {
 
         }
 
-        public static async Task<string> GetSecret(string secretName, string keyVaultName)
+        public async Task<string> GetSecret(string secretName, string keyVaultName)
         {
             try
             {
-                return (await GetClient())
+                return (await GetClient().GetSecretAsync(@"https://ombytekeyvault.vault.azure.net/", secretName)).Value;
+            }
+            catch (Exception ex)
+            {
+                return ex.Message;
             }
         }
 
-        public static async Task<string> GetAccessTokenAsync()
+        public async Task<string> GetAccessTokenAsync()
         {
-            AzureServiceTokenProvider azureServiceTokenProvider = new AzureServiceTokenProvider();
             return await azureServiceTokenProvider.GetAccessTokenAsync("https://vault.azure.net");
         }
 
-        private static KeyVaultClient GetClient()
+        private KeyVaultClient GetClient()
         {
-            AzureServiceTokenProvider azureServiceTokenProvider = new AzureServiceTokenProvider();
-            KeyVaultClient keyVaultClient = new KeyVaultClient(new KeyVaultClient.AuthenticationCallback(azureServiceTokenProvider.KeyVaultTokenCallback));
+            var authenticationCallback = new KeyVaultClient.AuthenticationCallback(azureServiceTokenProvider.KeyVaultTokenCallback);
+            var keyVaultClient = new KeyVaultClient(authenticationCallback);
+            
             return keyVaultClient;
         }
 
         public string GetToken()
         {
-            return "<bot token>";
+            var secretName = "BotToken";
+            var keyVaultName = "OmbyteKeyVault";
+
+            Console.WriteLine("secret: OTQxMDA5OTEzMzAyMzc2NDY4.YgPtxg.VAKpFvkqIiEsG5-B0XV20K_g1NY");
+            Console.WriteLine($"Token from vault: { GetSecret(secretName, keyVaultName).GetAwaiter().GetResult()}");
+            return GetSecret(secretName, keyVaultName).GetAwaiter().GetResult();
         }
         
             

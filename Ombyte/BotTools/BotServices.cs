@@ -1,6 +1,7 @@
 ﻿using Discord.Commands;
 using Discord.WebSocket;
 using Microsoft.Extensions.DependencyInjection;
+using Ombyte.BotTools.Configs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -38,7 +39,7 @@ namespace Ombyte.BotTools
         public BotServices()
         {
             ///TODO does this work or do I use _client to set the value
-            Client = new DiscordSocketClient();
+            Client = new DiscordSocketClient(config: new ClientConfig());
             Commands = new CommandService();
             TokenRetreiver = new TokenRetreiver();
             _services = new ServiceCollection()

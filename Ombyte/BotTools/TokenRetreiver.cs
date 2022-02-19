@@ -41,7 +41,8 @@ namespace Ombyte.BotTools
 
         private KeyVaultClient GetClient()
         {
-            var authenticationCallback = new KeyVaultClient.AuthenticationCallback(azureServiceTokenProvider.KeyVaultTokenCallback);
+            var authenticationCallback = new KeyVaultClient
+                .AuthenticationCallback(azureServiceTokenProvider.KeyVaultTokenCallback);
             var keyVaultClient = new KeyVaultClient(authenticationCallback);
             
             return keyVaultClient;

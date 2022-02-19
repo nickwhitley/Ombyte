@@ -2,7 +2,7 @@
 using Discord.WebSocket;
 using Microsoft.Extensions.DependencyInjection;
 using Ombyte.BotTools.Configs;
-using Ombyte.Modules.Commands;
+using Ombyte.Modules.TextCommands;
 using System;
 using System.Collections.Generic;
 using System.Linq;

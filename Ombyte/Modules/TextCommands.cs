@@ -3,7 +3,7 @@ using Discord;
 
 namespace Ombyte.Modules
 {
-    public class Commands : ModuleBase<SocketCommandContext>
+    public class TextCommands : ModuleBase<SocketCommandContext>
     {
         [Command("ping")]
         public async Task Ping()

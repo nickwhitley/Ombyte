@@ -32,7 +32,7 @@ namespace Ombyte.BotTools
             Services.Client.Log += ClientLog;
 
             await RegisterCommandsAsync();
-            await Services.Client.LoginAsync(TokenType.Bot, Services.TokenRetreiver.GetToken());
+            await Services.Client.LoginAsync(TokenType.Bot, new TokenRetreiver().GetToken());
             await Services.Client.StartAsync();
             await Task.Delay(-1);
 
@@ -54,28 +54,30 @@ namespace Ombyte.BotTools
 
         private async Task HandleCommandAsync(SocketMessage arg)
         {
+
             var message = arg as SocketUserMessage;
             var context = new SocketCommandContext(Services.Client, message);
             int argPos = 0;
 
-            if (!IsCommandSenderValid(message, argPos)) return;
+            if (IsCommandSenderValid(message, ref argPos))
+            {
+                var result = await Services.Commands.ExecuteAsync(
+                    context: context,
+                    argPos: argPos,
+                    services: Services as IServiceProvider);
 
-            var result = await Services.Commands.ExecuteAsync(
-                context: context,
-                argPos: argPos,
-                services: Services as IServiceProvider);
-
-            if (!result.IsSuccess) Console.WriteLine(result.ErrorReason);
+                if (!result.IsSuccess) Console.WriteLine(result.ErrorReason);
+            }
         }
 
-        private bool IsCommandSenderValid(SocketUserMessage message, int argPos)
+        private bool IsCommandSenderValid(SocketUserMessage message, ref int argPos)
         {
             if (message == null) return false;
             if (message.Author.IsBot) return false;
-            if (!(message.HasCharPrefix('!', ref argPos))) return false;
             if (message.HasMentionPrefix(Services.Client.CurrentUser, ref argPos)) return false;
+            if (message.HasStringPrefix("!", ref argPos)) return true;
             
-            return true;
+            return false;
         }
     }
 }

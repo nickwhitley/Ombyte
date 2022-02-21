@@ -54,6 +54,7 @@ namespace Ombyte.BotTools
             var keyVaultName = "OmbyteKeyVault";
 
             return GetSecret(secretName, keyVaultName).GetAwaiter().GetResult();
+            
         }
         
             

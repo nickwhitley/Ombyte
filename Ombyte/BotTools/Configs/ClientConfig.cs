@@ -10,6 +10,7 @@ namespace Ombyte.BotTools.Configs
 {
     internal class ClientConfig : DiscordSocketConfig
     {
-        new readonly GatewayIntents GatewayIntents = GatewayIntents.AllUnprivileged;
+        readonly GatewayIntents GatewayIntents = GatewayIntents.AllUnprivileged;
+        readonly GuildPermission guildPermission = GuildPermission.Administrator;
     }
 }

@@ -47,6 +47,7 @@ namespace Ombyte.BotTools
         public async Task RegisterCommandsAsync()
         {
             Services.Client.MessageReceived += HandleCommandAsync;
+            Services.Commands.CommandExecuted += OnCommandExecutedAsync;
             
             await Services.Commands.AddModulesAsync(assembly: Assembly.GetEntryAssembly(),
                                                     services: Services as IServiceProvider);
@@ -78,6 +79,20 @@ namespace Ombyte.BotTools
             if (message.HasStringPrefix("!", ref argPos)) return true;
             
             return false;
+        }
+
+        private async Task OnCommandExecutedAsync(Optional<CommandInfo> command,
+                                                    ICommandContext context, IResult result)
+        {
+
+            if (!string.IsNullOrEmpty(result?.ErrorReason)) 
+                await context.Channel.SendMessageAsync(result.ErrorReason);
+
+            var commandName = command.IsSpecified ? command.Value.Name : "command";
+
+            await ClientLog(new LogMessage(LogSeverity.Info,
+                "CommandExectuion",
+                $"{ commandName } was executed at { DateTime.UtcNow }"));
         }
     }
 }

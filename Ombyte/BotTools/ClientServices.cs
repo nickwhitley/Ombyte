@@ -2,6 +2,7 @@
 using Discord.WebSocket;
 using Microsoft.Extensions.DependencyInjection;
 using Ombyte.BotTools.Configs;
+using Ombyte.TypeReaders;
 
 namespace Ombyte.BotTools
 {
@@ -11,6 +12,7 @@ namespace Ombyte.BotTools
         private DiscordSocketClient _client;
         private CommandService _commands;
         private TokenRetreiver _tokenRetreiver = new TokenRetreiver();
+        private TypeReader _intTypeReader;
         private IServiceProvider _services;
 
         public DiscordSocketClient Client
@@ -31,11 +33,20 @@ namespace Ombyte.BotTools
             private set => _tokenRetreiver = value;
         }
 
+        public TypeReader IntTypeReader 
+        { 
+            get => _intTypeReader; 
+            private set => _intTypeReader = value; 
+        }
+
         public ClientServices()
         {
             Client = new DiscordSocketClient(config: new ClientConfig());
             Commands = new CommandService(config: new CommandServiceConfig { DefaultRunMode = RunMode.Sync});
             TokenRetreiver = new TokenRetreiver();
+            IntTypeReader = new IntTypeReader();
+
+            Commands.AddTypeReader(typeof(int), IntTypeReader);
             
             _services = new ServiceCollection()
                 .AddSingleton(Client)

@@ -8,6 +8,7 @@ using Azure.Security.KeyVault.Secrets;
 using Azure.Security.KeyVault;
 using Microsoft.Azure.Services.AppAuthentication;
 using Microsoft.Azure.KeyVault;
+using System.Diagnostics;
 
 namespace Ombyte.BotTools
 {
@@ -52,7 +53,7 @@ namespace Ombyte.BotTools
         {
             var secretName = "BotToken";
             var keyVaultName = "OmbyteKeyVault";
-
+            
             return GetSecret(secretName, keyVaultName).GetAwaiter().GetResult();
             
         }

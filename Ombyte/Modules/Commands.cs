@@ -1,5 +1,6 @@
 ﻿using Discord.Commands;
 using Discord;
+using Discord.WebSocket;
 
 namespace Ombyte.Modules
 {
@@ -17,6 +18,15 @@ namespace Ombyte.Modules
         public async Task SayAsync([Remainder] string echoText)
             => await ReplyAsync(echoText);
 
-        
+        [Command("alluserinfo")]
+        [Summary("Used for testing, should print defined user info for online users.")]
+        public async Task AllUserInfoAsync()
+        {
+            
+            foreach (var user in Context.Guild.Users)
+            {
+                await ReplyAsync($"{ user.Username}#{ user.Discriminator }");
+            }
+        }
     }
 }
